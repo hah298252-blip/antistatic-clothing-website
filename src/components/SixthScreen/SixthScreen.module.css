@@ -1,0 +1,89 @@
+.sixth {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 235svh;
+  background: #fff;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(21% 29% 21% 29% round 24px);
+  will-change: clip-path;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.32);
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .22));
+  will-change: opacity;
+}
+
+.joinText,
+.dragText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  margin: 0;
+  color: #fff;
+  white-space: nowrap;
+  text-align: center;
+  pointer-events: none;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .28);
+  will-change: opacity, transform;
+}
+
+.joinText {
+  font: 700 clamp(2.5rem, 6.5vw, 7rem)/1 'Third Screen', 'Noto Sans SC', sans-serif;
+  letter-spacing: .12em;
+  transform: translate(-50%, -50%);
+}
+
+.dragText {
+  width: 100vw;
+  opacity: 0;
+  font: 700 clamp(3rem, 8.8vw, 10rem)/1 'Third Screen', 'Noto Sans SC', sans-serif;
+  letter-spacing: .04em;
+  transform: translate(-50%, -50%) translateY(24px);
+}
+
+@media (max-width: 768px) {
+  .sixth { height: 205svh; }
+  .frame { clip-path: inset(25% 12% 25% 12% round 20px); }
+  .joinText { font-size: clamp(2rem, 10vw, 4rem); }
+  .dragText { font-size: clamp(2.4rem, 11vw, 4.5rem); }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .sixth { height: 225svh; }
+  .frame { clip-path: inset(18% 25% 18% 25% round 16px); }
+  .joinText { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+  .dragText { font-size: clamp(2.2rem, 7.5vw, 3.6rem); }
+}

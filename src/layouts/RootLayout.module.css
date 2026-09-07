@@ -1,0 +1,118 @@
+.root {
+  position: relative;
+  min-height: 100vh;
+}
+
+.main {
+  min-height: 100vh;
+}
+
+.transitioning a,
+.transitioning button {
+  pointer-events: none !important;
+}
+
+.orientationLock {
+  display: none;
+}
+
+/* Unlock only when a phone has at least the 667px landscape viewport used by
+   the smallest commonly supported devices. Wider phones are still blocked in
+   portrait, while unusually narrow landscape viewports remain locked too. */
+@media (max-width: 932px) and (orientation: portrait), (max-width: 666px) {
+  .orientationLock {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow: hidden;
+    background: #f4f2ec;
+    color: #161616;
+    text-align: center;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  .orientationLock::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: .035;
+    background-image:
+      linear-gradient(#161616 1px, transparent 1px),
+      linear-gradient(90deg, #161616 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+  }
+
+  .phoneIcon {
+    position: relative;
+    width: 3.25rem;
+    height: 5.5rem;
+    margin-bottom: 2.4rem;
+    border: 2px solid currentColor;
+    border-radius: .65rem;
+    animation: rotatePhone 2.4s cubic-bezier(.65, 0, .35, 1) infinite;
+  }
+
+  .phoneIcon::before {
+    content: '';
+    position: absolute;
+    top: .38rem;
+    left: 50%;
+    width: .9rem;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transform: translateX(-50%);
+  }
+
+  .phoneIcon span {
+    position: absolute;
+    right: 50%;
+    bottom: -1.4rem;
+    width: 5.4rem;
+    height: 5.4rem;
+    border: 1px dashed #b89651;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+    transform: translateX(50%) rotate(-12deg);
+  }
+
+  .orientationLock p {
+    position: relative;
+    margin: 0 0 .8rem;
+    font-family: Georgia, 'Noto Sans SC', serif;
+    font-size: clamp(2rem, 9vw, 3rem);
+    font-weight: 400;
+    letter-spacing: .08em;
+  }
+
+  .orientationHint {
+    position: relative;
+    max-width: 18rem;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: .72rem;
+    letter-spacing: .14em;
+    line-height: 1.8;
+    opacity: .52;
+  }
+}
+
+@keyframes rotatePhone {
+  0%, 22% { transform: rotate(0deg); }
+  55%, 82% { transform: rotate(90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phoneIcon {
+    animation: none;
+    transform: rotate(90deg);
+  }
+}

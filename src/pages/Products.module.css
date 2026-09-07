@@ -1,0 +1,266 @@
+.container {
+  --page-ink: #161616;
+  --page-paper: #f4f2ec;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: var(--page-paper);
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image:
+    linear-gradient(var(--page-ink) 1px, transparent 1px),
+    linear-gradient(90deg, var(--page-ink) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.container.isEntering {
+  overflow: visible;
+}
+
+.grid {
+  position: absolute;
+  display: flex;
+  gap: 9vw;
+  cursor: grab;
+}
+
+.grid.isDragging,
+.grid:active {
+  cursor: grabbing;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10vw;
+}
+
+.column:nth-child(even) {
+  margin-top: 14vw;
+}
+
+.product {
+  position: relative;
+  width: 14vw;
+  height: 19vw;
+  cursor: pointer;
+}
+
+.product.isFlipping {
+  z-index: 100;
+  pointer-events: none;
+  will-change: top, left, width, height;
+}
+
+.product > div {
+  width: 100%;
+  height: 100%;
+}
+
+.product img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(0);
+}
+
+.details {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 50vw;
+  height: 100vh;
+  padding: 4vw 2vw;
+  box-sizing: border-box;
+  border-left: 1px solid rgba(22, 22, 22, 0.28);
+  background-color: #e5e0d6;
+  background-image:
+    linear-gradient(rgba(22, 22, 22, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 22, 22, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: none;
+  overflow: hidden;
+  z-index: 20;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.closeCursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid rgba(244, 242, 236, 0.6);
+  border-radius: 50%;
+  background: #161616;
+  color: #f4f2ec;
+  box-shadow: 0 8px 24px rgba(22, 22, 22, 0.2);
+  font-size: 1.7rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -50%) scale(0.7);
+  will-change: transform;
+}
+
+.mobileClose {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .mobileClose {
+    position: absolute;
+    top: max(.75rem, env(safe-area-inset-top));
+    left: max(.75rem, env(safe-area-inset-left));
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    border: 1px solid rgba(244, 242, 236, .65);
+    border-radius: 50%;
+    background: #161616;
+    color: #f4f2ec;
+    box-shadow: 0 6px 20px rgba(22, 22, 22, .24);
+    font-size: 1.15rem;
+    line-height: 1;
+    touch-action: manipulation;
+  }
+}
+
+.detailsThumb {
+  position: relative;
+  width: 25vw;
+  aspect-ratio: 1 / 1;
+  z-index: 3;
+  will-change: transform;
+}
+
+/* When a product is teleported into the details thumbnail during a Flip
+   transition, make it fill the thumbnail instead of staying 18.5vw. */
+.detailsThumb .product,
+.detailsThumb .product > div {
+  width: 100%;
+  height: 100%;
+}
+
+.detailsTitle p,
+.detailsTexts p {
+  margin: 0;
+  overflow: hidden;
+}
+
+.detailsTitle p {
+  font: 500 clamp(2rem, 4vw, 5rem)/1.1 'Third Screen', 'Noto Sans SC', sans-serif;
+}
+
+.detailsBody {
+  display: flex;
+  gap: 3vw;
+  align-items: end;
+  margin-top: 6vw;
+}
+
+.detailsTexts {
+  max-width: 16vw;
+}
+
+.detailsTexts p {
+  font: 400 clamp(.85rem, 1vw, 1.05rem)/1.8 'Noto Sans SC', sans-serif;
+}
+
+@media (max-width: 700px) {
+  .product,
+  .product > div { width: 40vw; }
+  .product { height: 54vw; }
+  .grid,
+  .column { gap: 8vw; }
+  .column:nth-child(even) { margin-top: 16vw; }
+  .details { width: 100vw; padding: 6rem 1.5rem; }
+  .detailsThumb { width: 55vw; }
+  .detailsBody { gap: 1.5rem; margin-top: 3rem; }
+  .detailsTexts { max-width: 30vw; }
+  .closeCursor { display: none; }
+}
+
+/* A 667x375 phone is wide enough for the desktop interaction model, but the
+   generic <=700px rules above are portrait-oriented. Restore a compact
+   side-panel layout for short landscape screens. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .product,
+  .product > div {
+    width: clamp(7rem, 19vw, 8.75rem);
+  }
+
+  .product {
+    height: clamp(9.5rem, 26vw, 12rem);
+  }
+
+  .grid {
+    gap: 7vw;
+  }
+
+  .column {
+    gap: 7vw;
+  }
+
+  .column:nth-child(even) {
+    margin-top: 9vw;
+  }
+
+  .details {
+    width: 55vw;
+    padding: 3rem 1.2rem 1rem;
+  }
+
+  .detailsTitle p {
+    font-size: clamp(1.45rem, 4vw, 2.2rem);
+    line-height: 1;
+  }
+
+  .detailsBody {
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+
+  .detailsThumb {
+    flex: 0 0 auto;
+    width: min(24vw, 10.5rem);
+  }
+
+  .detailsTexts {
+    max-width: 21vw;
+  }
+
+  .detailsTexts p {
+    font-size: clamp(.68rem, 1.35vw, .82rem);
+    line-height: 1.55;
+  }
+
+  .closeCursor {
+    display: grid;
+    width: 2.7rem;
+    height: 2.7rem;
+    font-size: 1.4rem;
+  }
+}

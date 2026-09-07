@@ -1,0 +1,188 @@
+@font-face {
+  font-family: 'QingNiao JianMeiHei';
+  src: url('../../assert/fonts/QingNiaoHuaGuangJianMeiHei-2.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Third Screen';
+  src: url('../../assert/fonts/3screen.ttf') format('truetype');
+  font-display: swap;
+}
+
+.section {
+  position: relative;
+  /* HeroMask's pin spacer includes both its own 100vh height and the final
+     100vh hand-off. Pull this section up by both amounts so its sticky stage
+     is already fixed beneath the second screen when that screen starts to
+     rise, rather than entering as a normal scrolling section afterward. */
+  margin-top: -200vh;
+  /* Reserve a dedicated pause for the final copy to finish appearing before
+     the circular hand-off begins, without shortening that hand-off itself. */
+  /* The scene timeline completes before the final circular hand-off, without
+     adding a blank viewport between the third and fourth screens. */
+  height: 705vh;
+  background: #fff;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #fff;
+  /* A full-width horizontal slit opens from the centre and grows vertically.
+     Opaque portions retain the third screen; the transparent band reveals
+     the fourth screen directly beneath it. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 calc(50% - var(--reveal-half, 0%) - var(--mask-overlap, 0px)),
+    transparent calc(50% - var(--reveal-half, 0%) - var(--mask-overlap, 0px)),
+    transparent calc(50% + var(--reveal-half, 0%) + var(--mask-overlap, 0px)),
+    #000 calc(50% + var(--reveal-half, 0%) + var(--mask-overlap, 0px)),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 calc(50% - var(--reveal-half, 0%) - var(--mask-overlap, 0px)),
+    transparent calc(50% - var(--reveal-half, 0%) - var(--mask-overlap, 0px)),
+    transparent calc(50% + var(--reveal-half, 0%) + var(--mask-overlap, 0px)),
+    #000 calc(50% + var(--reveal-half, 0%) + var(--mask-overlap, 0px)),
+    #000 100%
+  );
+  isolation: isolate;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: mask-image, filter;
+}
+
+.stage::after {
+  content: none;
+}
+
+.grid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(51vw, 736px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2.2vw, 32px);
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.item {
+  width: 100%;
+  aspect-ratio: 1;
+  align-self: start;
+  overflow: hidden;
+  background: transparent;
+  will-change: transform;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.72) contrast(1.06);
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #111;
+  font-family: 'Third Screen', 'Noto Sans SC', sans-serif;
+  text-align: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-family: 'Third Screen', 'Noto Sans SC', sans-serif;
+  font-size: clamp(1.95rem, 4.35vw, 4.35rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1.12;
+}
+
+.description {
+  margin: 1.15rem 0 1.7rem;
+  font-size: clamp(0.82rem, 1.1vw, 1rem);
+  letter-spacing: 0.14em;
+  color: rgba(17, 17, 17, 0.68);
+}
+
+.link {
+  padding: 0.75rem 1.35rem;
+  border: 1px solid rgba(17, 17, 17, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.link:hover,
+.link:focus-visible {
+  color: #fff;
+  background: #111;
+}
+
+@media (max-width: 768px) {
+  .section {
+    height: 630vh;
+  }
+
+  .grid {
+    width: min(82vw, 520px);
+    gap: 10px;
+  }
+
+  .title {
+    letter-spacing: 0.06em;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .grid { width: min(69vw, 460px); gap: 8px; }
+  .content { padding: 3rem 1rem 1rem; }
+  .title { font-size: clamp(1.65rem, 5vw, 2.35rem); }
+  .description { margin: .55rem 0 .8rem; font-size: .7rem; }
+  .link { padding: .5rem 1rem; font-size: .65rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    height: 100vh;
+  }
+
+  .grid {
+    opacity: 0.38;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+
+  .content {
+    visibility: visible;
+  }
+
+  .stage {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}

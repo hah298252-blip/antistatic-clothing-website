@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "name": "Nick Ho Motorsports — homepage 98 entrance DNA",
+    "description": "A complete, implementation-oriented design DNA for the Nick Ho Motorsports homepage, centred on the opening '98' number sequence and its layered racing imagery. Color and interaction timing are visual/structural inferences because the site's runtime source is protected by Cloudflare; treat values marked inferred as production-ready starting parameters to tune against a live recording.",
+    "source_references": [
+      {
+        "url": "https://nickho-motorsports.nl/",
+        "observed": "Homepage exposes '98 / Car number', dark/yellow racing imagery, depth-map assets, drag controls, navigation, sound control and stat-led hero content.",
+        "evidence_confidence": "medium"
+      }
+    ],
+    "created_at": "2026-08-30",
+    "analysis_scope": "Homepage entry through the first 98 number reveal",
+    "parameter_confidence": "Inferred timing and transform values; no protected runtime code was copied or inspected."
+  },
+  "design_system": {
+    "color": {
+      "palette_type": "complementary",
+      "primary": { "hex": "#101010", "role": "near-black hero, navigation and high-contrast field" },
+      "secondary": { "hex": "#F3F0E8", "role": "warm off-white type and light editorial surfaces" },
+      "accent": { "hex": "#E8C500", "role": "Porsche-yellow racing cue, selective image/interaction emphasis" },
+      "neutral": {
+        "scale": ["#F3F0E8", "#D9D6CF", "#8E8D88", "#3A3A38", "#101010"],
+        "usage": "Use #F3F0E8 on dark scenes; reserve #101010 for large fields and #8E8D88 for subdued labels."
+      },
+      "semantic": { "success": "#A7C957", "warning": "#E8C500", "error": "#D9534F", "info": "#78A8D8" },
+      "surface": { "background": "#101010", "card": "#181818", "elevated": "#242424" },
+      "contrast_strategy": "High-contrast off-white-on-near-black dominant; yellow is not used as body text."
+    },
+    "typography": {
+      "type_scale": {
+        "display": { "size": "clamp(10rem, 32vw, 38rem)", "weight": "700", "line_height": "0.72", "tracking": "-0.075em" },
+        "heading_1": { "size": "clamp(3.5rem, 9vw, 10rem)", "weight": "600", "line_height": "0.84", "tracking": "-0.06em" },
+        "heading_2": { "size": "clamp(2rem, 4vw, 5rem)", "weight": "500", "line_height": "0.95", "tracking": "-0.045em" },
+        "heading_3": { "size": "clamp(1.3rem, 2vw, 2.25rem)", "weight": "500", "line_height": "1", "tracking": "-0.025em" },
+        "body": { "size": "clamp(0.95rem, 1.1vw, 1.15rem)", "weight": "400", "line_height": "1.35", "tracking": "-0.015em" },
+        "body_small": { "size": "0.78rem", "weight": "400", "line_height": "1.35", "tracking": "0em" },
+        "caption": { "size": "0.68rem", "weight": "500", "line_height": "1.15", "tracking": "0.02em" },
+        "overline": { "size": "0.625rem", "weight": "600", "line_height": "1", "tracking": "0.12em" }
+      },
+      "font_families": { "heading": "Arial Narrow, Helvetica Neue Condensed, sans-serif", "body": "Helvetica Neue, Arial, sans-serif", "mono": "SFMono-Regular, Consolas, monospace" },
+      "font_style_notes": "Compressed neo-grotesk display lettering; oversized italic-free numeral; utilitarian small labels."
+    },
+    "spacing": { "base_unit": "4px", "scale": ["4px", "8px", "12px", "16px", "24px", "32px", "48px", "72px", "112px", "160px"], "content_density": "spacious", "section_rhythm": "Full-viewport scenes with sparse edge labels and large breathing gaps." },
+    "layout": { "grid_system": "12-column fluid grid", "max_content_width": "none; hero is viewport-bound", "columns": "12", "gutter": "clamp(12px, 1.4vw, 28px)", "breakpoints": { "mobile": "<768px", "tablet": "768-1023px", "desktop": ">=1024px" }, "alignment_tendency": "mixed: edge-aligned metadata with central oversized visual focal point" },
+    "shape": { "border_radius": { "small": "0px", "medium": "0px", "large": "0px", "pill": "999px" }, "border_usage": "subtle 1px hairlines only for functional controls", "divider_style": "1px solid rgba(243,240,232,0.35)" },
+    "elevation": { "shadow_style": "none", "levels": { "low": "none", "medium": "none", "high": "none" }, "depth_cues": "layer overlap, image cut-outs, depth-map displacement and contrast" },
+    "iconography": { "style": "minimal text/icon controls", "stroke_weight": "1px", "size_scale": ["12px", "16px", "20px", "24px"], "preferred_set": "custom monoline SVG" },
+    "motion": {
+      "easing": { "entry": "cubic-bezier(0.16, 1, 0.3, 1)", "settle": "cubic-bezier(0.22, 1, 0.36, 1)", "scrub": "none / linear" },
+      "duration_scale": { "micro": "180ms", "normal": "650ms", "macro": "1600ms" },
+      "entrance_pattern": "Oversized numeral resolves first, then layered image and peripheral metadata settle.",
+      "exit_pattern": "Fade/clip layers rather than bounce or spring.",
+      "philosophy": "cinematic, weighty and precise"
+    },
+    "components": { "button_style": "textual, low-chrome, hairline or underline affordance", "input_style": "flat line field", "card_style": "edge-to-edge photographic panels rather than floating cards", "navigation_pattern": "minimal top/edge navigation plus overlay menu", "modal_style": "full-viewport dark overlay", "list_style": "editorial rows separated by hairlines", "component_notes": "Controls stay subordinate to the photography and the race number." }
+  },
+  "design_style": {
+    "aesthetic": { "mood": ["charged", "precise", "cinematic"], "visual_metaphor": "A racing number cutting through a dark pit-lane image stack.", "era_influence": "contemporary motorsport editorial", "genre": "immersive sports portfolio", "personality_traits": ["focused", "competitive", "premium", "technical"], "adjectives": ["dark", "fast", "disciplined", "high-contrast", "tactile"] },
+    "visual_language": { "complexity": "rich", "ornamentation": "subtle accents", "whitespace_usage": "intentional full-bleed negative space around a single oversized focal number", "visual_weight_distribution": "central number and image stack dominate; metadata sits at edges", "focal_strategy": "single hero element followed by progressive reveal", "contrast_level": "high", "texture_usage": "photographic grain/motion blur rather than decorative UI texture" },
+    "composition": { "hierarchy_method": "extreme scale contrast plus spatial isolation", "balance_type": "asymmetric", "flow_direction": "center-outward then vertical scroll", "grouping_strategy": "number, label and stat are bound; imagery is layered behind", "negative_space_role": "creates anticipation before the visual layers resolve" },
+    "imagery": { "photo_treatment": "dark exposure, saturated yellow accents, hard crop and occasional blur", "illustration_style": "none", "graphic_elements": "large racing number, fine rules, utilitarian labels", "pattern_usage": "none", "image_shape": "full-bleed rectangle plus depth-separated cut-outs" },
+    "interaction_feel": { "feedback_style": "inertial and cinematic", "hover_behavior": "subtle cursor/drag response and image depth movement", "transition_personality": "smooth glide with deliberate pauses", "loading_style": "number-led reveal", "microinteraction_density": "moderate" },
+    "brand_voice_in_ui": { "tone": "confident and personal", "formality": "professional editorial", "cta_style": "subtle suggestion", "empty_state_approach": "not observed; use terse monochrome copy", "error_tone": "plain and low-drama" }
+  },
+  "visual_effects": {
+    "overview": { "effect_intensity": "heavy-immersive", "performance_tier": "heavy", "fallback_strategy": "Use a static composite hero image; disable drag/depth displacement and reduce motion to opacity-only.", "primary_technology": "WebGL/Three.js or Canvas displacement plus GSAP" },
+    "background_effects": { "type": "none", "description": "Near-black full-viewport field; visual interest comes from image layers, not a procedural background.", "technology": "CSS", "params": { "color_palette": ["#101010", "#F3F0E8", "#E8C500"], "speed": "0", "density": "0", "opacity": "1", "blend_mode": "normal" } },
+    "particle_systems": { "enabled": false, "type": "none", "description": "No particle field observed.", "technology": "none", "params": { "count": 0, "shape": "none", "size_range": "0", "movement_pattern": "none", "color_behavior": "none", "interaction": "none", "spawn_area": "none" } },
+    "3d_elements": { "enabled": true, "type": "scene-bg", "description": "Layered driver/car composition is supported by published depth-map assets, strongly indicating depth displacement or parallax rather than a flat image only.", "technology": "WebGL displacement plane or Canvas 2D depth layers", "params": { "renderer": "WebGL preferred", "lighting": "baked photography", "camera": "orthographic, subtle mouse offset ±2.5deg", "materials": "photo texture + grayscale depth texture", "geometry": "full-screen plane plus 2 depth-separated planes", "post_processing": ["grain optional", "no bloom"], "interaction_model": "pointer drag / pointer move translates foreground 18px, midground 10px, background 4px" } },
+    "shader_effects": { "enabled": true, "type": "custom-GLSL", "description": "Use depth-map-driven UV offset to give the hero subject a shallow interactive 3D response.", "technology": "GLSL fragment shader", "params": { "uniforms": { "uPointer": "vec2 normalized -1..1", "uDepthStrength": "0.035", "uEase": "0.12", "uProgress": "0..1" }, "vertex_manipulation": "none", "fragment_output": "sample photo UV offset by depth texture * uPointer * uDepthStrength", "noise_type": "none", "distortion": "depth displacement" } },
+    "scroll_effects": {
+      "parallax": { "enabled": true, "layers": "3", "depth_range": "4px background, 10px midground, 18px foreground per pointer axis", "speed_curve": "pointer lerp 0.12; scroll translateY 0 to -8vh over first 100vh" },
+      "scroll_triggered_animations": { "enabled": true, "trigger_points": ["initial load: 0ms", "hero complete: 1.6s", "next scene: top 80% viewport"], "animation_type": "number reveal, clip-reveal, fade-in", "scrub_behavior": "hero entry is time-based; later imagery may use scrub: true with 0.15s smoothing" },
+      "scroll_morphing": { "enabled": false, "description": "No scroll-driven shape morph is required for the 98 entrance." }
+    },
+    "text_effects": {
+      "type": "split-letter-animate",
+      "description": "Treat '98' as two separately masked glyphs; bring them from a compressed/overscaled state into one lock-up, then reveal the 'Car number' label.",
+      "technology": "GSAP + CSS clip-path",
+      "params": {
+        "split_strategy": "by-char for 9 and 8; by-word for supporting labels",
+        "animation_per_unit": {
+          "number_9": { "from": { "opacity": 0, "scale": 1.18, "translateY": "12vh", "clip_path": "inset(100% 0 0 0)", "filter": "blur(12px)" }, "to": { "opacity": 1, "scale": 1, "translateY": "0vh", "clip_path": "inset(0% 0 0 0)", "filter": "blur(0px)" }, "duration": "1.15s", "delay": "0.10s", "easing": "cubic-bezier(0.16,1,0.3,1)" },
+          "number_8": { "from": { "opacity": 0, "scale": 1.18, "translateY": "12vh", "clip_path": "inset(100% 0 0 0)", "filter": "blur(12px)" }, "to": { "opacity": 1, "scale": 1, "translateY": "0vh", "clip_path": "inset(0% 0 0 0)", "filter": "blur(0px)" }, "duration": "1.15s", "delay": "0.18s", "easing": "cubic-bezier(0.16,1,0.3,1)" },
+          "label": { "from": { "opacity": 0, "translateY": "18px", "filter": "blur(4px)" }, "to": { "opacity": 1, "translateY": "0px", "filter": "blur(0px)" }, "duration": "0.55s", "delay": "0.92s", "easing": "cubic-bezier(0.22,1,0.36,1)" }
+        },
+        "stagger": "0.08s between numeral glyphs; 0.04s between peripheral labels",
+        "effect_style": "masked vertical rise; no bounce; maintain a 100ms hold after numeral completion"
+      }
+    },
+    "cursor_effects": { "enabled": true, "type": "custom-cursor", "description": "The homepage exposes a 'drag' affordance; use a circular text cursor only over the depth-image interaction zone.", "params": { "shape": "72px circle with repeated DRAG text", "size": "72px desktop / hidden on touch", "blend_mode": "difference", "trail": "none", "interaction_zone": "hero image canvas" } },
+    "image_effects": { "type": "parallax-tilt", "description": "Hero image layers use shallow depth movement and a masked reveal under the number sequence.", "technology": "WebGL depth displacement + CSS clip-path fallback", "params": { "filter_pipeline": ["contrast(1.06)", "saturate(1.08)"], "hover_transform": "foreground translate3d(pointerX*18px,pointerY*12px,0); background at 0.22x", "reveal_animation": { "duration": "1.35s", "delay": "0.25s", "easing": "cubic-bezier(0.16,1,0.3,1)", "clip_path": "inset(100% 0 0 0) -> inset(0% 0 0 0)", "opacity": "0 -> 1", "scale": "1.08 -> 1" }, "distortion_type": "depth displacement" } },
+    "glassmorphism_neumorphism": { "enabled": false, "style": "none", "params": { "blur_radius": "0", "transparency": "0", "border_treatment": "none", "shadow_type": "none", "light_source_angle": "none" } },
+    "canvas_drawings": { "enabled": false, "type": "none", "description": "Canvas is optional only as a low-complexity substitute for the depth effect.", "technology": "none", "params": { "draw_method": "none", "animation_loop": "none", "color_scheme": "none", "responsiveness": "none", "interaction": "none" } },
+    "svg_animations": { "enabled": false, "type": "none", "description": "No SVG path-draw motif is necessary for the observed 98 entry.", "params": { "animation_method": "none", "path_morphing": "none", "stroke_animation": "none", "filter_effects": "none" } },
+    "composite_notes": "Recommended entry sequence: t=0 dark field; t=0.10s begin 9; t=0.18s begin 8; t=0.25s begin image clip reveal; t=0.92s reveal 'Car number'; t=1.30s enable pointer drag. Keep the number above the image at z-index 3, supporting label at z-index 4, image/canvas at z-index 1 and near-black fallback at z-index 0. Use prefers-reduced-motion to show the final number/image state immediately with no blur, no clip-path and no pointer displacement."
+  }
+}

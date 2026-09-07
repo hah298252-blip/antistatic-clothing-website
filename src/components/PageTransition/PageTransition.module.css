@@ -1,0 +1,28 @@
+.viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: clip;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.webglLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.webglLayer canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

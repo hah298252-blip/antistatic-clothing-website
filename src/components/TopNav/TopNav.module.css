@@ -1,0 +1,108 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.4rem;
+  height: 64px;
+  /* No background: sits transparently over the hero */
+  pointer-events: none;
+}
+
+
+/* ── Logo ── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+.logoImg {
+  height: 100px;
+  width: auto;
+  display: block;
+}
+
+/* ── Nav links ── */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  pointer-events: auto;
+}
+
+.link {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  position: relative;
+  transition: opacity 0.2s;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+
+.link:hover {
+  opacity: 0.6;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+.link.active {
+  opacity: 1;
+}
+
+.link.active::after {
+  width: 100%;
+}
+
+/* On the hero the text needs to be readable over the white overlay canvas.
+   If the page background is dark (e.g. product section) use --nav-color to
+   override from the page level. The default is dark text. */
+@media (max-width: 640px) {
+  .nav {
+    padding: 0 1.2rem;
+    height: 52px;
+  }
+
+  .links {
+    gap: 1.4rem;
+  }
+
+  .link {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .logoImg {
+    height: 36px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .nav { height: 48px; padding: 0 1rem; }
+  .logoImg { height: 54px; }
+  .links { gap: clamp(.75rem, 2.4vw, 1.4rem); }
+  .link { font-size: .66rem; letter-spacing: .1em; }
+}

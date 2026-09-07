@@ -1,0 +1,20 @@
+.scrollJourneyRange { position: relative; width: 100%; height: 320svh; padding-block: 10svh; box-sizing: border-box; }
+.scrollJourney { position: relative; width: min(58vw, 760px); height: 100%; }
+.scrollJourneyLine { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* vector-effect: non-scaling-stroke keeps the 2.5px width constant despite the
+   non-uniform viewBox stretch, but it also moves the dash pattern into screen
+   pixels — ScrollJourney.jsx therefore measures the on-screen path length and
+   feeds THAT value into stroke-dasharray/dashoffset. Do not remove. */
+.scrollJourneyLine path { fill: none; stroke: var(--journey-line, #62c5ee); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; shape-rendering: geometricPrecision; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 7px var(--journey-dot-shadow, rgba(98,197,238,.45))); }
+.scrollJourneyNode { position: absolute; color: var(--journey-text, #2f84b0); font: 400 clamp(1rem, 1.65vw, 1.45rem)/1 'Fifth Screen', 'Noto Sans SC', sans-serif; font-synthesis: none; letter-spacing: .14em; opacity: 0; visibility: hidden; transform: scale(.72); transform-origin: center; }
+.scrollJourneyNodeLabel { display: flex; align-items: center; gap: .85rem; white-space: nowrap; }
+.scrollJourneyNode1 { top: 21%; left: 65%; translate: -50% 0; }
+.scrollJourneyNode2 { top: 48%; right: 75%; }
+.scrollJourneyNode2 .scrollJourneyNodeLabel { flex-direction: row-reverse; }
+.scrollJourneyNode3 { top: 75%; left: 81%; translate: -50% 0; }
+.scrollJourneyDot { flex: 0 0 .78rem; width: .78rem; height: .78rem; border: 2px solid var(--journey-line, #62c5ee); border-radius: 50%; background: var(--journey-dot-bg, #fff); box-shadow: 0 0 0 5px color-mix(in srgb, var(--journey-line, #62c5ee) 18%, transparent), 0 0 14px var(--journey-dot-shadow, rgba(98,197,238,.55)); }
+.scrollJourneyImage { position: absolute; top: 50%; left: calc(100% + 1.25rem); z-index: 1; display: block; width: clamp(16rem, 28vw, 26rem); max-width: none; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid color-mix(in srgb, var(--journey-line, #62c5ee) 42%, #fff); border-radius: .55rem; box-shadow: 0 .85rem 2.15rem rgba(72, 42, 37, .17); }
+.scrollJourneyNode2 .scrollJourneyImage { right: calc(100% + 1rem); left: auto; }
+@media (max-width: 768px) { .scrollJourneyRange { height: 285svh; padding-block: 7svh; } .scrollJourney { width: 84vw; height: 100%; } .scrollJourneyNode { font-size: 1rem; } .scrollJourneyNode2 { right: -1%; } .scrollJourneyImage { width: clamp(12rem, 58vw, 18rem); } }
+@media (max-height: 500px) and (orientation: landscape) { .scrollJourneyRange { height: 300svh; padding-block: 5svh; } .scrollJourney { width: 58vw; } .scrollJourneyNode { font-size: .78rem; } .scrollJourneyImage { width: clamp(9rem, 27vw, 13rem); } .scrollJourneyNode2 { right: 68%; } }
+@media (prefers-reduced-motion: reduce) { .scrollJourneyNode { visibility: visible !important; opacity: 1 !important; transform: none !important; } }

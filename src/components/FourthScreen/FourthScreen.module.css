@@ -1,0 +1,426 @@
+.screens {
+  position: relative;
+  z-index: 0;
+  /* Sit under the third screen's final sticky viewport so its image is
+     available as soon as the third screen's spotlight mask opens. */
+  /* The fourth screen starts exactly where the final circular hand-off
+     begins, so it is already beneath the third screen's mask. */
+  /* 100vh supporting section space + 120vh reveal. */
+  margin-top: -220svh;
+  width: 100%;
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: clip;
+}
+
+.fourth {
+  /* The third-screen spotlight starts in its final hand-off segment. Start this screen at
+     that exact point so the image is already fixed beneath the opening hole. */
+  /* Keep the fully revealed image pinned for one additional viewport before
+     the fifth screen is allowed to enter. */
+  /* It begins beneath the third-screen mask, so it needs extra scroll space
+     and a sticky visual layer; otherwise it would have already scrolled away
+     when the circular transition finishes. */
+  /* The circle uses the full sticky travel. A longer parent keeps screen 5
+     out of view until the final partner has completed its route. */
+  /* 500vh is reserved for the ring route. The final two viewports are one
+     shared billboard/data scene: the first lifts the board in, the second
+     keeps the completed composition stable before screen five may enter. */
+  height: auto;
+  overflow: visible;
+  /* One continuous long fourth screen: every internal element sits over this
+     shared artwork, including the billboard at the very bottom. */
+  background: #111;
+}
+
+/* Eliminate the sub-pixel seam between the fourth screen's artwork and the
+   white fifth screen without altering or clipping the cloud frame. */
+.fourth::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 4;
+  height: 2px;
+  background: #fff;
+  pointer-events: none;
+}
+
+.fourthLongBackground {
+  position: absolute;
+  top: -8%;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  /* Start slightly above the screen to retain cover cropping, but end exactly
+     at the fourth screen's lower edge so no background spills into screen 5. */
+  height: 108%;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.fourthLongImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fourthVisual {
+  /* Native sticky avoids ScrollTrigger's generated pin-spacer layer, which
+     could become stale after smooth-scroll refreshes and cover this scene. */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  isolation: isolate;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* The rings occupy the first 500vh of the fourth-screen journey. This
+   dedicated sticky range releases the visual exactly then, allowing the
+   fourth screen itself to rise while its lower content enters. */
+.fourthStickyRange {
+  position: relative;
+  z-index: 1;
+  height: 600svh;
+}
+
+/* This range overlaps the last viewport of the ring journey. Its sticky
+   visual gives the billboard a real, stable presentation beat instead of
+   letting it continue to travel while screen five is already entering. */
+.fourthBottomRange {
+  position: relative;
+  z-index: 2;
+  /* A real presentation range keeps the billboard inside screen four instead
+     of allowing its absolutely positioned stage to overflow into screen five. */
+  height: 200svh;
+  margin-top: -100svh;
+}
+
+.fourthBottomVisual {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.fourthExtension {
+  /* This is an actual region of screen four, positioned exactly after the
+     500vh ring scene. It deliberately has no background of its own: the
+     fourth section's continuous artwork remains visible behind the data. */
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  left: 50%;
+  /* The sticky presentation window is exactly one viewport high. Keeping
+     each panel to that same height prevents its lower content being clipped. */
+  height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.billboardStage {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: auto;
+  left: 0;
+  width: 50%;
+  height: 100svh;
+  margin: 0;
+  display: flex;
+  /* The billboard's own bottom becomes the bottom edge of screen four. */
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: hidden;
+  /* Transparent: it is part of the fourth screen's continuous background,
+     not a new visual page. */
+  background: transparent;
+}
+
+.billboardImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  /* The PNG contains generous transparent margins. Enlarge the canvas and
+     compensate for its left transparent area so the visible billboard—not
+     merely its file box—sits against the left edge. */
+  width: 250%;
+  height: auto;
+  max-width: none;
+  max-height: 120%;
+  object-fit: contain;
+  object-position: center;
+  margin-left: -42%;
+  will-change: transform;
+}
+
+.statistics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  width: min(38vw, 620px);
+  /* A cool mist-blue keeps the data legible while belonging to the
+     fourth-screen artwork more naturally than pure white. */
+  color: #b9d8e8;
+  /* Both panels occupy the same single-viewport stage. Do not offset this
+     group, otherwise its visual centre would drift below the billboard. */
+  transform: translateY(0);
+}
+
+.statisticsContent {
+  display: grid;
+  justify-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.statistic {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 3rem) clamp(0.5rem, 0.7vw, 0.75rem);
+  text-align: center;
+}
+
+.statistic + .statistic {
+  border-left: 1px solid rgba(185, 216, 232, 0.46);
+}
+
+.statNumber,
+.statLabel {
+  margin: 0;
+  font-family: 'Third Screen', 'Noto Sans SC', sans-serif;
+}
+
+.statNumber {
+  align-self: end;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: clamp(1.35rem, 2.7vw, 2.75rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.statSuffix {
+  margin-left: 0.12em;
+  font-size: 0.45em;
+  letter-spacing: 0;
+}
+
+.statLabel {
+  margin-top: 1.25rem;
+  font-size: clamp(1rem, 1.38vw, 1.3rem);
+  letter-spacing: 0.16em;
+  color: #d9bac0;
+}
+
+.trustTitle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: 'Third Screen', 'Noto Sans SC', sans-serif;
+  font-size: clamp(2rem, 4.8vw, 6.5rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  mix-blend-mode: soft-light;
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.circleText {
+  position: absolute;
+  top: 50%;
+  /* Put the circle's centre just off the left edge. Only its right-hand arc
+     remains visible, reading as a single vertical rolling route. */
+  left: 0;
+  width: min(62vw, 980px);
+  height: 100svh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #fff;
+  font-family: 'Third Screen', 'Noto Sans SC', sans-serif;
+  font-size: clamp(1.75rem, 3rem, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  translate: -50% -50%;
+}
+
+.circleItem {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.partnerLogos {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.partnerLogoLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(15vw, 228px);
+  height: 120px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.partnerLogo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: clamp(0.65rem, 1vw, 1rem);
+  object-fit: contain;
+}
+
+.fourthFrame {
+  position: absolute;
+  /* The clouds form the lower edge of the fourth screen. Keep the complete
+     source artwork inside that screen so its outline is never cut flat. */
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* Medium-width, tall desktop screens (for example 1368 × 912) need a
+   slightly denser two-column composition than a wide 16:9 monitor. */
+@media (min-width: 769px) and (max-width: 1440px) and (min-height: 760px) {
+  .billboardStage { width: 54%; }
+  .fourthExtension { left: 54%; }
+  .billboardImage {
+    width: 225%;
+    max-height: 112%;
+    margin-left: -37%;
+  }
+  .statistics { width: min(42vw, 560px); }
+  .statisticsContent { gap: clamp(1.25rem, 2.25vw, 2rem); }
+  .statistic { padding: 1.15rem .45rem; }
+  .statNumber {
+    font-size: clamp(1.75rem, 2.65vw, 2.4rem);
+    color: #a9d5eb;
+  }
+  .statLabel {
+    margin-top: .9rem;
+    font-size: clamp(.9rem, 1.25vw, 1.1rem);
+    color: #d8b0ba;
+  }
+}
+
+@media (max-width: 768px) {
+  .trustTitle {
+    font-size: clamp(1.65rem, 8vw, 2.6rem);
+    letter-spacing: 0.1em;
+  }
+
+  .circleText {
+    left: 0;
+    width: 82vw;
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+
+  .partnerLogo {
+    padding: 0.45rem;
+  }
+
+  .partnerLogoLayer {
+    width: min(23vw, 132px);
+    height: 72px;
+  }
+
+  .statistics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    width: min(94vw, 560px);
+    transform: translateY(0);
+  }
+
+  .statistic {
+    padding: 0.85rem 1rem;
+  }
+
+  .statistic + .statistic {
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.32);
+  }
+
+  .billboardStage {
+    top: 0;
+    width: 50%;
+    height: 100svh;
+  }
+
+  .fourthExtension {
+    top: 0;
+    right: 0;
+    left: 50%;
+    height: 100svh;
+  }
+
+  .statNumber {
+    font-size: clamp(1.3rem, 6.5vw, 2.3rem);
+  }
+
+  .statLabel {
+    margin-top: 0.55rem;
+  }
+
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .trustTitle { font-size: clamp(1.5rem, 5.5vw, 2.35rem); }
+  .circleText { width: 68vw; height: 100svh; font-size: 1.25rem; }
+  .partnerLogoLayer { width: min(17vw, 108px); height: 52px; }
+  .statistics { width: 46vw; }
+  .statisticsContent { gap: .5rem; }
+  .statistic { padding: .45rem .3rem; }
+  .statNumber { font-size: clamp(1rem, 3vw, 1.35rem); }
+  .statLabel { margin-top: .4rem; font-size: clamp(.62rem, 1.5vw, .78rem); letter-spacing: .08em; }
+  .billboardImage { width: 205%; margin-left: -34%; max-height: 108%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+}

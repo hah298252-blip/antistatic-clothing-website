@@ -1,0 +1,44 @@
+.lanyardCards {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms cubic-bezier(.2, .75, .2, 1);
+  touch-action: none;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.lanyardCards--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lanyardCards .lanyard-wrapper {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+.lanyardCards canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
+@media (max-width: 768px) {
+  .lanyardCards { transform: scale(.8); transform-origin: center; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .lanyardCards { transform: none; }
+  .lanyardCards .lanyard-wrapper { transform: none; }
+}

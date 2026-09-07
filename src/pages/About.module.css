@@ -1,0 +1,185 @@
+@font-face {
+  font-family: 'About Local';
+  src: url('../assert/fonts/about.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.page {
+  --text: #111;
+  --background: #f4e9da;
+  --accent: #a68d69;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 7.5rem 0 16vh;
+  color: var(--text);
+  background: var(--background);
+  isolation: isolate;
+  font-family: 'About Local', 'Noto Sans SC', sans-serif;
+}
+
+.noise {
+  position: fixed;
+  z-index: -1;
+  top: -100%;
+  left: -50%;
+  width: 300%;
+  height: 300%;
+  opacity: .22;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 35%, rgba(0,0,0,.2) 0 .5px, transparent .7px),
+    radial-gradient(circle at 75% 65%, rgba(255,255,255,.7) 0 .6px, transparent .8px);
+  background-size: 5px 5px, 7px 7px;
+  animation: grain 8s steps(10) infinite;
+}
+
+.menu {
+  --marquee-width: 100vw;
+  --offset: 20vw;
+  --move-initial: calc(-25% + var(--offset));
+  --move-final: calc(-50% + var(--offset));
+  --item-font-size: clamp(4.6rem, 10vw, 10rem);
+  counter-reset: about-menu;
+  user-select: none;
+}
+
+.item {
+  position: relative;
+  padding: 0 5vw;
+}
+
+.itemLink {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: flex-start;
+  padding: 0 1vw;
+  color: transparent;
+  font-family: 'About Local', 'Noto Sans SC', sans-serif;
+  font-size: var(--item-font-size);
+  font-weight: 900;
+  line-height: 1.08;
+  white-space: nowrap;
+  -webkit-text-stroke: 1.5px var(--text);
+  transition: opacity .4s;
+}
+
+.itemLink sup {
+  min-width: 2.6rem;
+  margin: .8em .45rem 0 0;
+  color: var(--text);
+  font-size: .62rem;
+  letter-spacing: .15em;
+  -webkit-text-stroke: 0;
+}
+
+.itemLink:hover,
+.item:focus-within .itemLink {
+  opacity: 0;
+  transition-duration: .1s;
+}
+
+.itemImage {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 100%;
+  width: min(29vw, 430px);
+  height: min(50vh, 400px);
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(calc(-100% - 6vw), -30%, 0) translateY(20px);
+  filter: saturate(.65) contrast(1.04);
+  transition: opacity .4s, transform .4s;
+}
+
+.itemLink:hover + .itemImage,
+.item:focus-within .itemImage {
+  opacity: 1;
+  transform: translate3d(calc(-100% - 6vw), -30%, 0) rotate(4deg);
+}
+
+.marquee {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: var(--marquee-width);
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: color-burn;
+}
+
+.marqueeInner {
+  position: relative;
+  display: flex;
+  width: max-content;
+  opacity: 0;
+  transform: translate3d(var(--move-initial), 0, 0);
+  animation: marquee 5s linear infinite paused;
+  transition: opacity .1s;
+}
+
+.itemLink:hover ~ .marquee .marqueeInner,
+.item:focus-within .marqueeInner {
+  opacity: 1;
+  animation-play-state: running;
+  transition-duration: .4s;
+}
+
+.marquee span {
+  padding: 0 1vw;
+  color: var(--text);
+  font-family: 'About Local', 'Noto Sans SC', sans-serif;
+  font-size: var(--item-font-size);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+.marquee em {
+  margin-left: .2em;
+  color: var(--accent);
+  font-family: 'About Local', 'Noto Sans SC', sans-serif;
+  font-weight: 400;
+}
+
+@keyframes marquee {
+  from { transform: translate3d(var(--move-initial), 0, 0); }
+  to { transform: translate3d(var(--move-final), 0, 0); }
+}
+
+@keyframes grain {
+  0%,100% { transform: translate(0,0); }
+  10% { transform: translate(-5%,-10%); }
+  20% { transform: translate(-15%,5%); }
+  30% { transform: translate(7%,-25%); }
+  40% { transform: translate(-5%,25%); }
+  50% { transform: translate(-15%,10%); }
+  60% { transform: translate(15%,0); }
+  70% { transform: translate(0,15%); }
+  80% { transform: translate(3%,35%); }
+  90% { transform: translate(-10%,10%); }
+}
+
+@media (max-width: 700px) {
+  .page { padding-top: 6rem; }
+  .menu { --item-font-size: clamp(3.2rem, 16vw, 5rem); }
+  .item { padding-inline: 1rem; }
+  .itemImage { width: 42vw; height: 26vh; }
+  .itemLink sup { min-width: 1.5rem; margin-top: .7em; }
+}
+
+@media (hover: none) {
+  .itemLink { opacity: 1 !important; }
+  .itemImage, .marquee { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noise, .marqueeInner { animation: none; }
+}

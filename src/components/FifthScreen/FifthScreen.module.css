@@ -1,0 +1,200 @@
+@font-face {
+  font-family: 'Fifth Screen';
+  src: url('../../assert/fonts/5screen.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.fifth {
+  --journey-line: #96b1cd;
+  --journey-text: #482a25;
+  --journey-dot-bg: #ebd6d6;
+  --journey-dot-shadow: rgba(150, 177, 205, .42);
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  isolation: isolate;
+  /* The long white field belongs to this section itself, rather than only to
+     the sticky viewport, so screen five remains one continuous long page. */
+  background: #fff;
+  will-change: transform;
+}
+
+.fifthScene {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: visible;
+  background: transparent;
+}
+
+.draggableBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.draggableAsset {
+  position: absolute;
+  display: block;
+  width: clamp(7rem, 14vw, 15rem);
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: none !important;
+  box-shadow: none;
+  cursor: grab;
+  opacity: 1;
+  pointer-events: auto;
+  touch-action: none;
+  translate: -50% -50%;
+}
+
+.draggableAsset:hover,
+.draggableAsset:focus-visible {
+  z-index: 2;
+  box-shadow: none;
+}
+
+.draggableAsset:active { cursor: grabbing; }
+
+.stickerContainer {
+  --peel-height: 30%;
+  position: relative;
+  display: block;
+  transform: rotate(var(--sticker-tilt, 0deg));
+  transform-origin: center;
+}
+
+.stickerMain {
+  display: block;
+  clip-path: polygon(-8px -8px, calc(100% + 8px) -8px, calc(100% + 8px) calc(100% + 8px), -8px calc(100% + 8px));
+  filter: drop-shadow(.18rem .32rem .42rem rgba(72, 42, 37, .26));
+  transition: clip-path .55s cubic-bezier(.2, .7, .2, 1);
+}
+
+.stickerMain img,
+.stickerFlap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+  transform: rotate(calc(-1 * var(--sticker-tilt, 0deg)));
+}
+
+.stickerFlap {
+  position: absolute;
+  top: calc(-100% - 20px);
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  clip-path: polygon(-8px -8px, calc(100% + 8px) -8px, calc(100% + 8px) -8px, -8px -8px);
+  filter: drop-shadow(0 -.1rem .25rem rgba(72, 42, 37, .16));
+  pointer-events: none;
+  transform: scaleY(-1);
+  transform-origin: center;
+  transition: top .55s cubic-bezier(.2, .7, .2, 1), clip-path .55s cubic-bezier(.2, .7, .2, 1);
+}
+
+.draggableAsset:hover .stickerMain,
+.draggableAsset:focus-visible .stickerMain {
+  clip-path: polygon(-8px var(--peel-height), calc(100% + 8px) var(--peel-height), calc(100% + 8px) calc(100% + 8px), -8px calc(100% + 8px));
+}
+
+.draggableAsset:hover .stickerFlap,
+.draggableAsset:focus-visible .stickerFlap {
+  top: calc(-100% + 60% - 1px);
+  clip-path: polygon(-8px -8px, calc(100% + 8px) -8px, calc(100% + 8px) var(--peel-height), -8px var(--peel-height));
+}
+
+.draggableAsset:active .stickerMain { clip-path: polygon(-8px 40%, calc(100% + 8px) 40%, calc(100% + 8px) calc(100% + 8px), -8px calc(100% + 8px)); }
+
+.draggableAsset:active .stickerFlap {
+  top: calc(-100% + 80% - 1px);
+  clip-path: polygon(-8px -8px, calc(100% + 8px) -8px, calc(100% + 8px) 40%, -8px 40%);
+}
+
+.titleWrap {
+  position: relative;
+  z-index: 3;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 28svh;
+  padding: clamp(2.25rem, 5.5svh, 4.5rem) clamp(1.5rem, 7vw, 8rem) 0;
+}
+
+.title {
+  width: min(100%, 1100px);
+  margin: 0;
+  color: #92c7e6;
+  font-family: 'Fifth Screen', 'Noto Sans SC', sans-serif;
+  font-size: clamp(2rem, 6.2vw, 6.75rem);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.05em;
+  line-height: 0.9;
+}
+
+.titleKeyword {
+  --underline-scale: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.titleKeyword::before,
+.titleKeyword::after {
+  content: '';
+  position: absolute;
+  right: -.06em;
+  bottom: -.1em;
+  left: -.08em;
+  height: .14em;
+  border-radius: 999px;
+  background: #c59f9c;
+  transform: scaleX(var(--underline-scale)) rotate(-1.8deg);
+  transform-origin: left center;
+}
+
+.titleKeyword::after {
+  right: .04em;
+  bottom: -.17em;
+  left: .02em;
+  height: .085em;
+  opacity: .65;
+  transform: scaleX(var(--underline-scale)) rotate(.8deg);
+}
+
+.journey {
+  position: relative;
+  z-index: 2;
+  left: 50%;
+  margin: 0 0 0;
+  translate: -50% 0;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .titleWrap { padding: .6rem 1.5rem 0; }
+
+  .journey { margin-top: 0; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .titleWrap { min-height: 24svh; padding: 1rem 4rem 0; }
+  .title { font-size: clamp(1.75rem, 5vw, 2.4rem); line-height: .92; }
+  .draggableAsset { width: clamp(4.5rem, 11vw, 6.5rem); }
+}

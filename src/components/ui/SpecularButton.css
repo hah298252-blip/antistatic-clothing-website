@@ -1,0 +1,7 @@
+.specularButton { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 10.25rem; min-height: 3.15rem; padding: .75rem 1.55rem; border: 0; border-radius: 18px; color: var(--sb-text, #f5f5f5); background: var(--sb-background, rgba(255,255,255,.035)); box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 8px 24px rgba(0,0,0,.25); cursor: pointer; font: 500 .82rem/1 'Third Screen', 'Noto Sans SC', sans-serif; letter-spacing: .22em; transition: transform 150ms ease, background-color 180ms ease; }
+.specularButton:hover { background: var(--sb-hover-background, rgba(255,255,255,.08)); }
+.specularButton:active { transform: scale(.97); }
+.specularButton:focus-visible { outline: 2px solid rgba(255,255,255,.7); outline-offset: 3px; }
+.specularButtonEffect { position: absolute; inset: -20px; z-index: 1; pointer-events: none; }
+.specularButtonEffect canvas { display: block; width: 100%; height: 100%; }
+.specularButtonLabel { position: relative; z-index: 2; }

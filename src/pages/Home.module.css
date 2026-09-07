@@ -1,0 +1,41 @@
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.companyStory {
+  position: relative;
+  z-index: 0;
+  height: 100vh;
+  background: #151515;
+}
+
+.storyViewport {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #151515;
+}
+
+.storyClipDefinitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.manufacturingLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  clip-path: url(#company-manufacturing-clip);
+}
+
+@media (max-width: 768px) {
+  .companyStory { height: 100svh; }
+  .storyViewport { height: 100svh; }
+}
