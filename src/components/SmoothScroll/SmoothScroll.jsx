@@ -6,13 +6,36 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function SmoothScroll({ children, options }) {
+export default function SmoothScroll({ children, options, paused = false }) {
   const lenisRef = useRef(null)
+  const pausedRef = useRef(paused)
+
+  useEffect(() => {
+    let refreshFrame = null
+    let settleFrame = null
+    pausedRef.current = paused
+    const lenis = lenisRef.current?.lenis
+    if (paused) lenis?.stop()
+    else {
+      lenis?.resize()
+      lenis?.start()
+      refreshFrame = requestAnimationFrame(() => {
+        settleFrame = requestAnimationFrame(() => {
+          ScrollTrigger.refresh(true)
+          ScrollTrigger.update()
+        })
+      })
+    }
+    return () => {
+      cancelAnimationFrame(refreshFrame)
+      cancelAnimationFrame(settleFrame)
+    }
+  }, [paused])
 
   useEffect(() => {
     let resumeFrame = null
     const update = ({ timestamp }) => {
-      lenisRef.current?.lenis?.raf(timestamp)
+      if (!pausedRef.current) lenisRef.current?.lenis?.raf(timestamp)
     }
 
     const syncAfterResume = () => {
@@ -25,7 +48,7 @@ export default function SmoothScroll({ children, options }) {
       // smooth-scroll clock first, then recalculate every scroll scene.
       const lenis = lenisRef.current?.lenis
       lenis?.resize()
-      lenis?.start()
+      if (!pausedRef.current) lenis?.start()
       gsap.ticker.wake()
 
       cancelAnimationFrame(resumeFrame)

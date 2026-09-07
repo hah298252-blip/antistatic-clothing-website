@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(node -e \"const g=require\\('./node_modules/gsap/package.json'\\);console.log\\(g.version\\)\")",
-      "Bash(npm install *)"
-    ]
-  }
-}

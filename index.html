@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/src/assert/logo-index.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html.is-preloading,
+      html.is-preloading body {
+        overflow: hidden;
+        overscroll-behavior: none;
+      }
+
+      html.is-preloading body {
+        min-height: 100vh;
+        min-height: 100dvh;
+        background: #161616;
+      }
+    </style>
+    <script>
+      var phoneNeedsRotation = window.matchMedia(
+        '(max-width: 932px) and (orientation: portrait), (max-width: 666px)'
+      ).matches;
+      if (window.location.pathname === '/' && !phoneNeedsRotation) {
+        document.documentElement.classList.add('is-preloading');
+      }
+    </script>
     <title>净源科技有限公司|防静电服装工厂</title>
   </head>
   <body>

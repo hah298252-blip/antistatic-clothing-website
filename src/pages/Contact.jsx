@@ -66,6 +66,10 @@ export default function Contact() {
         <div className={styles.formPanel} key={active}>
           <div className={styles.formIntro}><span>{contact.eyebrow}</span><h2>{contact.title}</h2><p>{contact.description}</p></div>
           <form className={styles.form} onSubmit={handleSubmit}>
+            <label className={styles.honeypot} aria-hidden="true">
+              <span>网站</span>
+              <input name="website" type="text" tabIndex="-1" autoComplete="off" />
+            </label>
             <div className={styles.fieldRow}>
               <label><span>您的姓名 *</span><input name="name" type="text" autoComplete="name" placeholder="姓名" required disabled={status === 'sending'} /></label>
               <label><span>联系邮箱 *</span><input name="email" type="email" autoComplete="email" placeholder="name@example.com" required disabled={status === 'sending'} /></label>

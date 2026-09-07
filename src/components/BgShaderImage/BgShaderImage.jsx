@@ -1,4 +1,5 @@
 import { useRef, useEffect, forwardRef } from 'react'
+import { markIntroResourceReady } from '../../utils/introResources'
 
 const MAX_TRAIL = 24
 
@@ -213,7 +214,7 @@ function generateSingleZPath(startX, startY) {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 const BgShaderImage = forwardRef(function BgShaderImage(
-  { baseSrc, coverSrc, className },
+  { baseSrc, coverSrc, className, readyKey },
   ref
 ) {
   const wrapRef   = useRef(null)
@@ -270,7 +271,13 @@ const BgShaderImage = forwardRef(function BgShaderImage(
     gl.uniform1i(uBaseLoc, 0)
     gl.uniform1i(uCoverLoc, 1)
     Promise.all([loadTex(gl, baseSrc), loadTex(gl, coverSrc)])
-      .then(([bt, ct]) => { baseTex = bt; coverTex = ct; syncSize(); ready = true })
+      .then(([bt, ct]) => {
+        baseTex = bt
+        coverTex = ct
+        syncSize()
+        ready = true
+        markIntroResourceReady(readyKey)
+      })
       .catch(console.error)
 
     // ── Canvas sizing ─────────────────────────────────────────────────────
@@ -466,10 +473,10 @@ const BgShaderImage = forwardRef(function BgShaderImage(
       gl.deleteBuffer(quadBuf)
       gl.deleteProgram(prog)
     }
-  }, [baseSrc, coverSrc])
+  }, [baseSrc, coverSrc, readyKey])
 
   return (
-    <div ref={mergeRef} className={className}>
+    <div ref={mergeRef} className={className} data-intro-hero-media>
       <img
         src={baseSrc}
         alt=""

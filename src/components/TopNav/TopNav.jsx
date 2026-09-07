@@ -10,7 +10,7 @@ const ITEMS = [
 
 export default function TopNav({ logoSrc }) {
   return (
-    <nav className={styles.nav} aria-label="主导航">
+    <nav className={styles.nav} aria-label="主导航" data-intro-nav>
       {/* Logo */}
       {logoSrc && (
         <NavLink to="/" className={styles.logo} aria-label="回到首页">

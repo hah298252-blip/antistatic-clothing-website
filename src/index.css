@@ -19,6 +19,17 @@ body {
   color: #111;
 }
 
+html.is-preloading,
+html.is-preloading body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+html.is-preloading body {
+  height: 100vh;
+  height: 100dvh;
+}
+
 img, video {
   max-width: 100%;
   display: block;

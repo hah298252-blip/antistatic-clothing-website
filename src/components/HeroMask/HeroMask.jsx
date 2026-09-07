@@ -2,6 +2,7 @@ import { useRef, useLayoutEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import BgShaderImage from '../BgShaderImage/BgShaderImage'
+import { markIntroResourceReady } from '../../utils/introResources'
 import styles from './HeroMask.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -304,6 +305,7 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
     let entryDone = false
     let viewportWidth = window.innerWidth
     let restoreTimelineState = null
+    let resetHeroAtTop = null
     const t0 = performance.now()
 
     // ── WebGL init ────────────────────────────────────────────────────────
@@ -348,6 +350,7 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
     gl.activeTexture(gl.TEXTURE0)
     const sdfTex = createSDFTexture(gl)
     gl.uniform1i(uSDFLoc, 0)
+    markIntroResourceReady('hero-mask-webgl')
 
     // Mutable uniform state
     const uni = { tx: 0, ty: 0, sx: 1, sy: 1, progress: 0 }
@@ -458,7 +461,7 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
       // ScrollTrigger's scrubbed tween can otherwise leave one paint frame of
       // the enlarged logo on screen. Reset every canvas-related value before
       // changing the stacking order so the base mask is the only frame seen.
-      const resetHeroAtTop = () => {
+      resetHeroAtTop = () => {
         if (entryTl && !entryDone) entryTl.kill()
         entryDone = true
         proxy.zoom = 1
@@ -591,7 +594,9 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
     if (bgLeftRef.current)  gsap.set(bgLeftRef.current,  { x: '-110%' })
     if (bgRightRef.current) gsap.set(bgRightRef.current, { x:  '110%' })
 
+    const waitingForIntro = document.documentElement.classList.contains('is-preloading')
     entryTl = gsap.timeline({
+      paused: waitingForIntro,
       delay: 0.2,
       onComplete: () => { entryDone = true },
     })
@@ -601,6 +606,19 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
     if (bgs.length) {
       entryTl.to(bgs, { x: '0%', duration: 1.1, ease: 'power3.out', stagger: 0 }, 0.4)
     }
+
+    const onIntroComplete = () => {
+      const entryUiTargets = [labelRef.current, hintRef.current].filter(Boolean)
+      entryTl?.kill()
+      entryDone = true
+      gsap.set(canvas, { opacity: 1, yPercent: 0 })
+      if (bgLeftRef.current) gsap.set(bgLeftRef.current, { x: '0%' })
+      if (bgRightRef.current) gsap.set(bgRightRef.current, { x: '0%' })
+      if (behindRef.current) gsap.set(behindRef.current, { scale: 1 })
+      if (entryUiTargets.length) gsap.set(entryUiTargets, { opacity: 1, y: 0 })
+      restoreTimelineState?.(0)
+    }
+    window.addEventListener('jingyuan:intro-complete', onIntroComplete, { once: true })
 
     const onResize = () => {
       // Browser UI appearing/disappearing can continuously change viewport
@@ -616,13 +634,13 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
     // independently of GSAP's scrub callback. This is important immediately
     // after a route transition, when the first Lenis tick can precede a normal
     // ScrollTrigger onUpdate.
-      const syncHeroScrollState = () => {
-        ScrollTrigger.update()
-        const progress = tl?.scrollTrigger?.progress ?? 0
-        if (progress <= 0.001) {
-          if (entryDone) resetHeroAtTop()
-          return
-        }
+    const syncHeroScrollState = () => {
+      ScrollTrigger.update()
+      const progress = tl?.scrollTrigger?.progress ?? 0
+      if (progress <= 0.001) {
+        if (entryDone) resetHeroAtTop?.()
+        return
+      }
       if (entryTl && !entryDone) entryTl.kill()
       entryDone = true
       if (progress * (scrollLength / 100) < 0.94) gsap.set(canvas, { opacity: 1 })
@@ -653,6 +671,7 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
       wrap.removeEventListener('mousemove', onMouseMove)
       wrap.removeEventListener('mouseleave', onMouseLeave)
       window.removeEventListener('pageshow', onPageResume)
+      window.removeEventListener('jingyuan:intro-complete', onIntroComplete)
       document.removeEventListener('visibilitychange', onPageResume)
       entryTl.kill()
       if (tl) { tl.scrollTrigger?.kill(); tl.kill() }
@@ -663,8 +682,8 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
   }, [contentScrollLength, contextVersion, onScrollProgress, scrollLength])
 
   return (
-    <div ref={wrapRef} className={styles.wrap}>
-      <div ref={behindRef} className={styles.behind}>
+    <div ref={wrapRef} className={styles.wrap} data-intro-hero>
+      <div ref={behindRef} className={styles.behind} data-intro-hero-bg>
         {revealBackground && (
           <div
             className={styles.revealBackground}
@@ -681,6 +700,7 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
           baseSrc={bgLeft}
           coverSrc={bgLeftCover || bgLeft}
           className={styles.bgLeft}
+          readyKey="hero-left-textures"
         />
       )}
       {bgRight && (
@@ -689,11 +709,12 @@ export default function HeroMask({ children, bgLeft, bgRight, bgLeftCover, bgRig
           baseSrc={bgRight}
           coverSrc={bgRightCover || bgRight}
           className={styles.bgRight}
+          readyKey="hero-right-textures"
         />
       )}
 
-      <canvas key={contextVersion} ref={canvasRef} className={styles.svg} aria-hidden="true" />
-      <p ref={labelRef} className={styles.label}>净源科技 · 防静电服饰</p>
+      <canvas key={contextVersion} ref={canvasRef} className={styles.svg} aria-hidden="true" data-intro-hero-title />
+      <p ref={labelRef} className={styles.label} data-intro-hero-subtitle>净源科技 · 防静电服饰</p>
     </div>
   )
 }
